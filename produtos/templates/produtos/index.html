@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Você está no meu CRM</h1>
+<p>Bem-vindo ao sistema de gerenciamento de relacionamento com o cliente!</p>
+<p>Esta é a página inicial do seu CRM, onde você pode gerenciar seus produtos, clientes e muito mais.</p>
+<p>Use o menu de navegação para acessar diferentes seções do sistema.</p>
+<p>Para começar, você pode adicionar novos produtos, visualizar o estoque atual e explorar outras funcionalidades disponíveis.</p>
+<p>Se precisar de ajuda, consulte a documentação ou entre em contato com o suporte.</p>
+<p>Obrigado por usar nosso CRM!</p>
+<p><a href="{% url 'create_produto' %}">Clique aqui</a> para adicionar um novo produto.</p>
+{% endblock %}

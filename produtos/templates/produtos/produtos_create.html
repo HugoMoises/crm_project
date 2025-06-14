@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+<form action="{% url 'produto_list' %}" method="post">
+    {% csrf_token %}
+    <div style="text-align: center;" class="container">
+        <h1>Cadastro de Produtos</h1>
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Salvar</button>
+    </div>
+</form>
+{% endblock %}
