@@ -22,8 +22,8 @@
               <td> {{produto.preco}} </td>
               <td> {{ produto.estoque }} </td>
               <td>
-                <a class="btn btn-warning btn-sm" href="#">Editar</a>
-                <a class="btn btn-danger btn-sm" href="#">Excluir</a>
+                <a class="btn btn-warning btn-sm" href="{% url 'produto_update' produto.id%}">Editar</a>
+                <a class="btn btn-danger btn-sm" href="{% url 'produto_delete' produto.id %}">Excluir</a>
               </td>
 
             </tr>

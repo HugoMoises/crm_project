@@ -7,7 +7,6 @@
             <tr>
                 <th scope="col">Produto</th>
                 <th scope="col">Quantidade</th>
-                <th scope="col">Ações</th>
             </tr>
         </thead>
         <tbody>
@@ -15,10 +14,6 @@
             <tr>
                 <td>{{ produto.nome }}</td>
                 <td>{{ produto.estoque }}</td>
-                <td>
-                    <a class="btn btn-warning btn-sm" href="#">Editar</a>
-                    <a class="btn btn-danger btn-sm" href="#">Excluir</a>
-                </td>
             </tr>
             {% endfor %}
         </tbody>

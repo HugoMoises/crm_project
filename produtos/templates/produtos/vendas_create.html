@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+<form action="{% url 'create_venda' %}" method="post">
+    {% csrf_token %}
+    <div style="text-align: center;" class="container">
+        <h1>Registro de Vendas</h1>
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Registrar Venda</button>
+    </div>
+
+</form>
+
+{% endblock %}
