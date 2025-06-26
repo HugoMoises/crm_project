@@ -28,8 +28,22 @@
 
             </tr>
             {% endfor %}
+            
         </tbody>
     </table>
+    <div class="pagination">
+      <span class="step-links">
+        {% if produtos.has_previous %}
+          <a href="?page={{ produtos.previous_page_number }}"><i class="fas fa-arrow-left"></i></a>
+        {% endif %}
+        <span class="current">
+          {{ produtos.number }} de {{ produtos.paginator.num_pages }}
+        </span>
+        {% if produtos.has_next %}
+          <a href="?page={{ produtos.next_page_number }}"><i class="fas fa-arrow-right"></i></a>
+        {% endif %}
+      </span>
+    </div>
 
 </div>
 {% endblock %}

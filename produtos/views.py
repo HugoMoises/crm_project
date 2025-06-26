@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.core.paginator import Paginator
 from .forms import ProdutoForm, ProdutoVenda
 from .models import Produto, Venda
 
@@ -8,17 +9,16 @@ def index(request):
 #CRUD Produtos
 
 def produto_list(request):
-    produtos = Produto.objects.all()
-    if request.method == 'POST':
-        form = ProdutoForm(request.POST)
-        if form.is_valid():
-            form.save()
-    else:
-        form = ProdutoForm()
+    produtos_list = Produto.objects.all().order_by('nome')
+    
+    paginator = Paginator(produtos_list, 5)
+
+    page = request.GET.get('page')
+
+    produtos = paginator.get_page(page)
 
     context = {
         'produtos': produtos,
-        'form': form
     }
     return render(request, 'produtos/produtos_list.html', context)
 
@@ -27,6 +27,7 @@ def create_produto(request):
         form = ProdutoForm(request.POST)
         if form.is_valid():
             form.save()
+            return redirect('produto_list')
     else:
         form = ProdutoForm()
     context = {
@@ -68,8 +69,17 @@ def estoque(request):
 #CRUD Vendas
 
 def vendas(request):
-    vendas = Venda.objects.all()
+    vendas = Venda.objects.all().order_by('-data_venda')
+    
+
+    paginator = Paginator(vendas, 5)
+
+    page = request.GET.get('page')
+
+    vendas = paginator.get_page(page)
+
     faturamento_total = sum(venda.valor_total() for venda in vendas)
+
     context = {
         'vendas': vendas,
         'faturamento_total': faturamento_total

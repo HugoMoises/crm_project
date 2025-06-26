@@ -1,0 +1,18 @@
+/* Pagination */
+.pagination{
+    margin-bottom: 20px;
+    text-align: center;
+}
+.step-links {
+    text-decoration: none;
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.step-links .current {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+

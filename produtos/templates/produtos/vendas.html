@@ -25,6 +25,20 @@
             {% endfor %}
         </tbody>
     </table>
+    <div class="pagination">
+      <span class="step-links">
+        {% if vendas.has_previous %}
+          <a href="?page={{ produtos.previous_page_number }}"><i class="fas fa-arrow-left"></i></a>
+        {% endif %}
 
+        <span class="current">
+          {{ vendas.number }} de {{ vendas.paginator.num_pages }}
+      
+        </span>
+      {% if vendas.has_next %}
+        <a href="?page={{ vendas.next_page_number }}"><i class="fas fa-arrow-right"></i></a>
+      {% endif %}
+      </span>
+    </div>
 </div>
 {% endblock %}
