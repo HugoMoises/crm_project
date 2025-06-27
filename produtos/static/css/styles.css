@@ -16,3 +16,15 @@
 }
 
 
+/* Search */
+
+
+
+#search-btn {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px;
+    margin-left: 10px;
+}

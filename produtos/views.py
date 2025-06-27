@@ -9,13 +9,20 @@ def index(request):
 #CRUD Produtos
 
 def produto_list(request):
-    produtos_list = Produto.objects.all().order_by('nome')
-    
-    paginator = Paginator(produtos_list, 5)
 
-    page = request.GET.get('page')
+    search = request.GET.get('search')
 
-    produtos = paginator.get_page(page)
+    if search:
+        produtos = Produto.objects.filter(nome__icontains=search).order_by('nome')
+
+    else:
+        produtos_list = Produto.objects.all().order_by('nome')
+        
+        paginator = Paginator(produtos_list, 5)
+
+        page = request.GET.get('page')
+
+        produtos = paginator.get_page(page)
 
     context = {
         'produtos': produtos,
@@ -69,14 +76,20 @@ def estoque(request):
 #CRUD Vendas
 
 def vendas(request):
-    vendas = Venda.objects.all().order_by('-data_venda')
+    vendas = Venda.objects.all().order_by('data')
     
+    search = request.GET.get('search')
 
-    paginator = Paginator(vendas, 5)
+    if search:
+        vendas = Venda.objects.filter(produto__nome__icontains=search).order_by('data')
+    
+    else:
 
-    page = request.GET.get('page')
+        paginator = Paginator(vendas, 5)
 
-    vendas = paginator.get_page(page)
+        page = request.GET.get('page')
+
+        vendas = paginator.get_page(page)
 
     faturamento_total = sum(venda.valor_total() for venda in vendas)
 
@@ -84,7 +97,7 @@ def vendas(request):
         'vendas': vendas,
         'faturamento_total': faturamento_total
     }
-    return render(request, 'produtos/vendas.html', context)
+    return render(request, 'vendas/vendas.html', context)
 
 def create_venda(request):
     if request.method == 'POST':
@@ -106,4 +119,4 @@ def create_venda(request):
     context = {
         'form': form
     }
-    return render(request, 'produtos/vendas_create.html', context)
+    return render(request, 'vendas/vendas_create.html', context)

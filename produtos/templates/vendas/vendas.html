@@ -5,6 +5,12 @@
     <h1>Lista de Vendas</h1>
     <h2>Faturamento Total: R$ {{ faturamento_total }}</h2>
     <a class="btn btn-success" href="{% url 'create_venda' %}" role="button">Registrar nova venda</a>
+    <form class="d-flex" method="get" id="search-form">
+      <input class="form-control" type="text" id="search" name="search" placeholder="Pesquisar pelo produto" value="{{request.GET.search}}">
+      <button type="submit" id="btn-search" class="btn btn-outline-dark">
+        <i class="fas fa-search"></i>
+      </button>
+    </form>
     <table class="table table-dark table-striped">
         <thead>
             <tr>
@@ -30,14 +36,14 @@
         {% if vendas.has_previous %}
           <a href="?page={{ produtos.previous_page_number }}"><i class="fas fa-arrow-left"></i></a>
         {% endif %}
-
-        <span class="current">
-          {{ vendas.number }} de {{ vendas.paginator.num_pages }}
-      
-        </span>
-      {% if vendas.has_next %}
-        <a href="?page={{ vendas.next_page_number }}"><i class="fas fa-arrow-right"></i></a>
-      {% endif %}
+        {% if vendas.paginator.num_pages %}
+          <span class="current">
+            {{ vendas.number }} de {{ vendas.paginator.num_pages }}
+          </span>
+        {% endif %}
+        {% if vendas.has_next %}
+          <a href="?page={{ vendas.next_page_number }}"><i class="fas fa-arrow-right"></i></a>
+        {% endif %}
       </span>
     </div>
 </div>
