@@ -10,13 +10,17 @@ class Produto(models.Model):
         return self.nome
 
 class Venda(models.Model):
-    produto = models.ForeignKey(Produto, on_delete=models.CASCADE)
-    quantidade = models.PositiveIntegerField()
     data = models.DateTimeField(auto_now_add=True)
 
     def valor_total(self):
-        valor_total = self.quantidade * self.produto.preco
-        return valor_total
-
+        return sum(item.preco_unitario * item.quantidade for item in self.itens.all())
+    
     def __str__(self):
-        return f"{self.quantidade} x {self.produto.nome} - {self.data.strftime('%Y-%m-%d %H:%M:%S')}"
+        return f"Venda {self.id} - {self.data.strftime('%d/%m/%Y %H:%M:%S')} - {self.valor_total()}"
+
+
+class ItemVenda(models.Model):
+    venda = models.ForeignKey(Venda, on_delete=models.CASCADE, related_name='itens')
+    produto = models.ForeignKey(Produto, on_delete=models.CASCADE)
+    quantidade = models.PositiveIntegerField()
+    preco_unitario = models.DecimalField(max_digits=15, decimal_places=2)

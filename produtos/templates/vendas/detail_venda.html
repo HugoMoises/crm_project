@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Detalhes da venda #{{ vendas.id }}</h2>
+    <h3 style="font-size: 20px;">Data da venda: {{ vendas.data }}</h3>
+    <table class="table table-light table-striped">
+        <thead>
+            <tr>
+              <th scope="col">Produto</th>
+              <th scope="col">Quantidade</th>
+              <th scope="col">Preço Unitário</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in itens %}
+            <tr>
+              <td> {{ item.produto.nome }} </td>
+              <td> {{ item.quantidade }} </td>  
+              <td>{{ item.preco_unitario }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <h3>Total: {{ vendas.valor_total }}</h3>
+    <div style="text-align: center;">
+        <a class="btn btn-dark" href="{% url 'vendas' %}">Voltar</a>
+    </div>
+    
+    {% endblock %}

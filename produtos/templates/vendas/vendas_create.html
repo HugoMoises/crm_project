@@ -1,13 +1,32 @@
 {% extends 'base.html' %}
 {% block content %}
-<form action="{% url 'create_venda' %}" method="post">
-    {% csrf_token %}
-    <div style="text-align: center;" class="container">
-        <h1>Registro de Vendas</h1>
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">Registrar Venda</button>
+<div class="container">
+    <h2>Nova Venda</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ formset.management_form }}
+        <hr>
+    <div id="form-container">
+        {% for form in formset %}
+            <div class="form-row form-produto">
+                {{ form.as_p }}
+            </div>
+        {% endfor %}
     </div>
+        <button type="button" id="add-form" class="btn btn-secondary mt-3">Novo Produto</button>
+    
+        <button type="submit" class="btn btn-primary mt-3">Registrar Venda</button>
+    </form>
+</div>
+{% if erro %}
+<div class="alert alert-danger mt-3" role="alert">
+    {{ erro }}
+</div> 
+{% endif %}
 
-</form>
-
+<div id="empty-form" style="display: none;">
+    <div class="form-row form-produto">
+        {{ formset.empty_form.as_p|safe }}
+    </div>
+</div>
 {% endblock %}

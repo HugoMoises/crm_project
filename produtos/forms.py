@@ -1,5 +1,5 @@
 from django import forms
-from .models import Produto, Venda
+from .models import Produto, ItemVenda
 
 class ProdutoForm(forms.ModelForm):
     class Meta:
@@ -14,7 +14,7 @@ class ProdutoForm(forms.ModelForm):
     
 class ProdutoVenda(forms.ModelForm):
     class Meta:
-        model = Venda
+        model = ItemVenda
         fields = ['produto', 'quantidade']
         widgets = {
             'produto': forms.Select(attrs={'class': 'form-control'}),

@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator
+from django.forms import modelformset_factory
 from .forms import ProdutoForm, ProdutoVenda
-from .models import Produto, Venda
+from .models import Produto, Venda, ItemVenda
 
 def index(request):
     return render(request, 'produtos/index.html')
@@ -11,18 +12,16 @@ def index(request):
 def produto_list(request):
 
     search = request.GET.get('search')
+    page = request.GET.get('page')
 
     if search:
-        produtos = Produto.objects.filter(nome__icontains=search).order_by('nome')
+        produtos_list = Produto.objects.filter(nome__icontains=search).order_by('nome')
 
     else:
         produtos_list = Produto.objects.all().order_by('nome')
         
-        paginator = Paginator(produtos_list, 5)
-
-        page = request.GET.get('page')
-
-        produtos = paginator.get_page(page)
+    paginator = Paginator(produtos_list, 5)
+    produtos = paginator.get_page(page)
 
     context = {
         'produtos': produtos,
@@ -76,12 +75,12 @@ def estoque(request):
 #CRUD Vendas
 
 def vendas(request):
-    vendas = Venda.objects.all().order_by('data')
+    vendas = Venda.objects.all().order_by('-data')
     
     search = request.GET.get('search')
 
     if search:
-        vendas = Venda.objects.filter(produto__nome__icontains=search).order_by('data')
+        vendas = Venda.objects.filter(produto__nome__icontains=search).order_by('-data')
     
     else:
 
@@ -100,23 +99,55 @@ def vendas(request):
     return render(request, 'vendas/vendas.html', context)
 
 def create_venda(request):
+    ItemVendaFormSet = modelformset_factory(ItemVenda, form=ProdutoVenda, extra=1)
     if request.method == 'POST':
-        form = ProdutoVenda(request.POST)
-        if form.is_valid():
-            venda = form.save(commit=False)
-            produto = venda.produto
-            if produto.estoque >= venda.quantidade:
-                produto.estoque -= venda.quantidade
-                print(f"Produto: {produto.nome} | Novo estoque: {produto.estoque}")
-                produto.save()
-                venda.save()
-                return redirect('vendas')
-            else:
-                form.add_error('quantidade', 'Quantidade em estoque insuficiente.')
+        formset = ItemVendaFormSet(request.POST, queryset=ItemVenda.objects.none())
+        if formset.is_valid():
+            form_preenchido = [form for form in formset if form.cleaned_data]
+
+            if not form_preenchido:
+                context = {
+                    'erro': 'Nenhum item preenchido.',
+                    'formset': formset
+                }
+                return render(request, 'vendas/vendas_create.html', context)
+            
+            venda = Venda.objects.create()
+            for form in formset:
+                if form.cleaned_data:
+                    produto = form.cleaned_data.get('produto')
+                    quantidade = form.cleaned_data.get('quantidade')
+                
+                    if produto.estoque >= quantidade:
+                        produto.estoque -= quantidade
+                        produto.save()
+
+                        ItemVenda.objects.create(
+                            venda=venda,
+                            produto=produto,
+                            quantidade=quantidade,
+                            preco_unitario = produto.preco
+                        )   
+                
+                    else:
+                        form.add_error('quantidade', 'Quantidade em estoque insuficiente.')
+                        return render(request, 'vendas/vendas_create.html', {'formset': formset})
+            
+            return redirect('vendas')
+
     else:
-        form = ProdutoVenda()
+        formset = ItemVendaFormSet(queryset=ItemVenda.objects.none())
+    return render(request, 'vendas/vendas_create.html', {'formset': formset})
+
+def detail_venda(request, id):
+    vendas = get_object_or_404(Venda, id=id)
+    itens = vendas.itens.all()
+
+    total = vendas.valor_total()
     
     context = {
-        'form': form
-    }
-    return render(request, 'vendas/vendas_create.html', context)
+        'vendas': vendas,
+        'itens': itens,
+        'total': total    
+}
+    return render(request, 'vendas/detail_venda.html', context)

@@ -7,8 +7,8 @@ class ProdutoAdmin(admin.ModelAdmin):
     list_filter = ('estoque',)
 
 class VendaAdmin(admin.ModelAdmin):
-    list_display = ('produto', 'quantidade', 'data', 'valor_total')
-    search_fields = ('produto__nome',)
+    list_display = ('data', 'valor_total')
+    search_fields = ('data',)
     list_filter = ('data',)
 
 admin.site.register(Produto, ProdutoAdmin)
