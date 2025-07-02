@@ -28,3 +28,13 @@
     padding: 6px;
     margin-left: 10px;
 }
+
+/* RemoveForm */
+input[type=checkbox][name$="-DELETE"], 
+input[type=checkbox][name$="-DELETE"] + label {
+  display: none !important;
+}
+/* RemoveForm label */
+label[for$="-DELETE"] {
+  display: none !important;
+}

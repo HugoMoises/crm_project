@@ -99,7 +99,7 @@ def vendas(request):
     return render(request, 'vendas/vendas.html', context)
 
 def create_venda(request):
-    ItemVendaFormSet = modelformset_factory(ItemVenda, form=ProdutoVenda, extra=1)
+    ItemVendaFormSet = modelformset_factory(ItemVenda, form=ProdutoVenda, extra=1, can_delete=True)
     if request.method == 'POST':
         formset = ItemVendaFormSet(request.POST, queryset=ItemVenda.objects.none())
         if formset.is_valid():
@@ -114,7 +114,7 @@ def create_venda(request):
             
             venda = Venda.objects.create()
             for form in formset:
-                if form.cleaned_data:
+                if form.cleaned_data and not form.cleaned_data.get('DELETE', False):
                     produto = form.cleaned_data.get('produto')
                     quantidade = form.cleaned_data.get('quantidade')
                 
@@ -151,3 +151,4 @@ def detail_venda(request, id):
         'total': total    
 }
     return render(request, 'vendas/detail_venda.html', context)
+
