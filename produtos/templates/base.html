@@ -24,20 +24,23 @@
             <a class="nav-link active" href="{% url 'index' %}">Home</a>
           </li>  
           {% if user.is_authenticated %}
-            <li class="nav-item mx-2">
-              <a class="nav-link active" href="{% url 'produto_list' %}">Produtos</a>
-            </li>
-            <li class="nav-item mx-2">
-              <a class="nav-link active" href="{% url 'estoque' %}">Estoque</a>
-            </li>
+          <li class="nav-item dropdown mx-2">
+            <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button"
+              data-bs-toggle="dropdown" aria-expanded="false">Produtos</a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="{% url 'produto_list' %}">Lista de Produtos</a></li>
+              <li><a class="dropdown-item" href="{% url 'create_produto' %}">Adicionar Produto</a></li>
+              <li><hr class="dropdown-divider"><a class="dropdown-item" href="{% url 'estoque' %}">Estoque</a></li>
+            </ul>
+          </li>
             <li class="nav-item dropdown mx-2">
               <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button"
                 data-bs-toggle="dropdown" aria-expanded="false">
                 Vendas
               </a>
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="{% url 'create_venda' %}">Registrar Venda</a></li>
                 <li><a class="dropdown-item" href="{% url 'vendas' %}">Vendas Registradas</a></li>
+                <li><a class="dropdown-item" href="{% url 'create_venda' %}">Registrar Venda</a></li>
                 <li><hr class="dropdown-divider"></li>
               </ul>
             </li>
