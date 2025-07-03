@@ -1,3 +1,10 @@
+/* Title */
+.block-title {
+    text-align: center;
+    margin: 20px;
+    font-size: 30px;
+}
+
 /* Pagination */
 .pagination{
     margin-bottom: 20px;
@@ -27,4 +34,24 @@
     justify-content: center;
     padding: 6px;
     margin-left: 10px;
+}
+
+/* RemoveForm */
+input[type=checkbox][name$="-DELETE"], 
+input[type=checkbox][name$="-DELETE"] + label {
+  display: none !important;
+
+}
+
+
+/* RemoveForm label */
+label[for$="-DELETE"] {
+  display: none !important;
+
+}
+
+/* Login */
+
+.auth-card{
+  margin-bottom: 30px;
 }

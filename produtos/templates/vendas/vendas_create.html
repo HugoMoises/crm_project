@@ -10,6 +10,11 @@
         {% for form in formset %}
             <div class="form-row form-produto">
                 {{ form.as_p }}
+                <div style="display:none;">
+                    {{ form.DELETE }}
+                </div>
+                <button type="button" class="remove-form btn-outline-danger">Remover</button>
+
             </div>
         {% endfor %}
     </div>
@@ -27,6 +32,11 @@
 <div id="empty-form" style="display: none;">
     <div class="form-row form-produto">
         {{ formset.empty_form.as_p|safe }}
+        <div style="display:none;">
+            {{ formset.empty_form.DELETE }}
+        </div>
+        <button type="button" class="remove-form btn-outline-danger" >Remover</button>
+
     </div>
 </div>
 {% endblock %}

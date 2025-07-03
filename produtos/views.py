@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator
+from django.contrib.auth.decorators import login_required
 from django.forms import modelformset_factory
 from .forms import ProdutoForm, ProdutoVenda
 from .models import Produto, Venda, ItemVenda
@@ -8,7 +9,7 @@ def index(request):
     return render(request, 'produtos/index.html')
 
 #CRUD Produtos
-
+@login_required
 def produto_list(request):
 
     search = request.GET.get('search')
@@ -27,7 +28,7 @@ def produto_list(request):
         'produtos': produtos,
     }
     return render(request, 'produtos/produtos_list.html', context)
-
+@login_required
 def create_produto(request):
     if request.method == 'POST':
         form = ProdutoForm(request.POST)
@@ -40,7 +41,7 @@ def create_produto(request):
         'form': form
     }
     return render(request, 'produtos/produtos_create.html', context)
-
+@login_required
 def produto_update(request, id):
     produto = get_object_or_404(Produto, id=id)
     if request.method == 'POST':
@@ -56,7 +57,7 @@ def produto_update(request, id):
         'produto': produto
     }
     return render(request, 'produtos/produtos_update.html', context)
-
+@login_required
 def produto_delete(request, id):
     produto = get_object_or_404(Produto, id=id)
     produto.delete()
@@ -73,7 +74,7 @@ def estoque(request):
 
 
 #CRUD Vendas
-
+@login_required
 def vendas(request):
     vendas = Venda.objects.all().order_by('-data')
     
@@ -97,9 +98,9 @@ def vendas(request):
         'faturamento_total': faturamento_total
     }
     return render(request, 'vendas/vendas.html', context)
-
+@login_required
 def create_venda(request):
-    ItemVendaFormSet = modelformset_factory(ItemVenda, form=ProdutoVenda, extra=1)
+    ItemVendaFormSet = modelformset_factory(ItemVenda, form=ProdutoVenda, extra=1, can_delete=True)
     if request.method == 'POST':
         formset = ItemVendaFormSet(request.POST, queryset=ItemVenda.objects.none())
         if formset.is_valid():
@@ -114,7 +115,7 @@ def create_venda(request):
             
             venda = Venda.objects.create()
             for form in formset:
-                if form.cleaned_data:
+                if form.cleaned_data and not form.cleaned_data.get('DELETE', False):
                     produto = form.cleaned_data.get('produto')
                     quantidade = form.cleaned_data.get('quantidade')
                 
@@ -138,7 +139,7 @@ def create_venda(request):
     else:
         formset = ItemVendaFormSet(queryset=ItemVenda.objects.none())
     return render(request, 'vendas/vendas_create.html', {'formset': formset})
-
+@login_required
 def detail_venda(request, id):
     vendas = get_object_or_404(Venda, id=id)
     itens = vendas.itens.all()
@@ -151,3 +152,4 @@ def detail_venda(request, id):
         'total': total    
 }
     return render(request, 'vendas/detail_venda.html', context)
+

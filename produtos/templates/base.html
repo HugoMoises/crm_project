@@ -10,38 +10,57 @@
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="{% url 'index' %}">Home</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="{% url 'produto_list' %}">Produtos</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link active" href="{% url 'estoque' %}">Estoque</a>
-              </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Vendas
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <li><a class="dropdown-item" href="{% url 'create_venda' %}">Registrar Venda</a></li>
-                  <li><a class="dropdown-item" href="{% url 'vendas' %}">Vendas Registradas</a></li>
-                  <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" href="{% url 'estoque' %}">Estoque</a></li>
-                </ul>
-              </li>
-            </ul>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container-fluid justify-content-center">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+  
+      <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
+        <ul class="navbar-nav d-flex align-items-center">
 
-          </div>
-        </div>
-    </nav>
+          <li class="nav-item mx-2">
+            <a class="nav-link active" href="{% url 'index' %}">Home</a>
+          </li>  
+          {% if user.is_authenticated %}
+            <li class="nav-item mx-2">
+              <a class="nav-link active" href="{% url 'produto_list' %}">Produtos</a>
+            </li>
+            <li class="nav-item mx-2">
+              <a class="nav-link active" href="{% url 'estoque' %}">Estoque</a>
+            </li>
+            <li class="nav-item dropdown mx-2">
+              <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button"
+                data-bs-toggle="dropdown" aria-expanded="false">
+                Vendas
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" href="{% url 'create_venda' %}">Registrar Venda</a></li>
+                <li><a class="dropdown-item" href="{% url 'vendas' %}">Vendas Registradas</a></li>
+                <li><hr class="dropdown-divider"></li>
+              </ul>
+            </li>
+            <li class="nav-item mx-2">
+              <form method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-link nav-link" style="color: white; padding: 0;">Sair</button>
+              </form>
+            </li>
+          {% else %}
+            <li class="nav-item mx-2">
+              <a class="nav-link active" href="/accounts/login">Entrar</a>
+            </li>
+          {% endif %}
+  
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
     
     <div class="container mt-4">
+      <h1 class="block-title">{% block title %} {% endblock %}</h1>
         {% block content %}
         <!-- Conteúdo específico da página será inserido aqui -->
         {% endblock %}
