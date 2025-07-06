@@ -1,11 +1,60 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1>Você está no meu CRM</h1>
-<p>Bem-vindo ao sistema de gerenciamento de relacionamento com o cliente!</p>
-<p>Esta é a página inicial do seu CRM, onde você pode gerenciar seus produtos, clientes e muito mais.</p>
-<p>Use o menu de navegação para acessar diferentes seções do sistema.</p>
-<p>Para começar, você pode adicionar novos produtos, visualizar o estoque atual e explorar outras funcionalidades disponíveis.</p>
-<p>Se precisar de ajuda, consulte a documentação ou entre em contato com o suporte.</p>
-<p>Obrigado por usar nosso CRM!</p>
-<p><a href="{% url 'create_produto' %}">Clique aqui</a> para adicionar um novo produto.</p>
+<div class="text-center mt-5">
+  <h1 class="display-4 fw-bold">Bem-vindo ao Meu CRM</h1>
+  <p class="lead text-muted">Gerencie seus produtos, vendas e estoque de forma prática e eficiente.</p>
+
+  <div class="my-4">
+    <a href="{% url 'create_produto' %}" class="btn btn-success btn-lg me-3">
+      <i class="fas fa-plus-circle"></i> Adicionar Produto
+    </a>
+    <a href="{% url 'produto_list' %}" class="btn btn-outline-primary btn-lg">
+      <i class="fas fa-boxes"></i> Ver Produtos
+    </a>
+  </div>
+
+  <div class="row mt-5">
+    <div class="col-md-4 mb-4">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title"><i class="fas fa-box text-primary"></i> Produtos</h5>
+          <p class="card-text">Cadastre, edite e visualize seus produtos com facilidade.</p>
+          <a href="{% url 'produto_list' %}" class="btn btn-sm btn-primary">Ver produtos</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4 mb-4">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title"><i class="fas fa-cash-register text-success"></i> Vendas</h5>
+          <p class="card-text">Registre vendas e acompanhe o faturamento total da empresa.</p>
+          <a href="{% url 'vendas' %}" class="btn btn-sm btn-success">Ver vendas</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4 mb-4">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title"><i class="fas fa-warehouse text-warning"></i> Estoque</h5>
+          <p class="card-text">Veja a quantidade de produtos disponíveis em estoque.</p>
+          <a href="{% url 'estoque' %}" class="btn btn-sm btn-warning">Ver estoque</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% if not user.is_authenticated %}
+    <div class="mt-5">
+      <p class="text-muted">Ainda não tem conta?</p>
+      <a href="/accounts/signup/" class="btn btn-outline-dark">
+        <i class="fas fa-user-plus"></i> Criar Conta
+      </a>
+      <a href="/accounts/login/" class="btn btn-dark ms-2">
+        <i class="fas fa-sign-in-alt"></i> Entrar
+      </a>
+    </div>
+  {% endif %}
+</div>
 {% endblock %}

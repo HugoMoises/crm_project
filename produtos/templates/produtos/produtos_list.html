@@ -1,15 +1,20 @@
 {% extends 'base.html' %}
 {% block content %}
-<div style="text-align: center;" class="container">
-
-    <h1>Lista de Produtos</h1>
-    <a class="btn btn-success" href="{% url 'create_produto' %}" role="button">Novo Produto</a>
+<div class="offset-1 col-10 list-div"> 
+  <h1>Lista de Produtos</h1>
+  <a href="{% url 'create_produto' %}">
+    <div class="add-div">
+      <i class="fas fa-plus"></i> Adicionar Produto
+    </div>
+  </a>
+  <div class="col-9 search-div">
     <form class="d-flex" method="GET" id="search-form">
-      <input class='form-control' type='text' id="search" name="search" placeholder="Search" value="{{ request.GET.search }}">
-      <button type="submit" id="search-btn" class="btn btn-outline-dark">
+      <input class="form-control" type="text" name="search" id="search" placeholder="Digite o nome do produto" value="{{ request.GET.search }}" >
+      <button class="btn btn-light" type="submit" id="btn-search">
         <i class="fas fa-search"></i>
       </button>
     </form>
+  </div>
     <table class="table table-light table-striped">
         <thead>
             <tr>
@@ -28,8 +33,8 @@
               <td> {{produto.preco}} </td>
               <td> {{ produto.estoque }} </td>
               <td>
-                <a class="btn btn-warning btn-sm" href="{% url 'produto_update' produto.id%}"><i class="fa-solid fa-pen-to-square"></i></a>
-                <a href="{% url 'produto_delete' produto.id %}"><i class="fa-solid fa-trash"></i></a>
+                <a href="{% url 'produto_update' produto.id%}"><i class="fas fa-edit"></i></a>
+                <a href="{% url 'produto_delete' produto.id %}"><i class="fas fa-trash"></i></a>
               </td>
 
             </tr>

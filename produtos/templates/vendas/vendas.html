@@ -1,16 +1,23 @@
 {% extends 'base.html' %}
 {% block content %}
-<div style="text-align: center;" class="container">
-
+<div class="offset-1 col-10 list-div"> 
+  <div class="d-flex justify-content-between align-items-center mb-3">
     <h1>Lista de Vendas</h1>
-    <h2>Faturamento Total: R$ {{ faturamento_total }}</h2>
-    <a class="btn btn-success" href="{% url 'create_venda' %}" role="button">Registrar nova venda</a>
-    <form class="d-flex" method="get" id="search-form">
-      <input class="form-control" type="text" id="search" name="search" placeholder="Pesquisar pelo produto" value="{{request.GET.search}}">
-      <button type="submit" id="btn-search" class="btn btn-outline-dark">
-        <i class="fas fa-search"></i>
-      </button>
-    </form>
+    <h5 class="text-success">Faturamento Total: R$ {{ faturamento_total }}</h5>
+  </div>
+    <a href="{% url 'create_venda' %}">
+      <div class="col-2 add-div">
+        <i class="fas fa-plus"></i> Registrar Venda
+      </div>
+    </a>
+    <div class="col-9 search-div">
+      <form class="d-flex" method="GET" id="search-form">
+        <input class="form-control" type="text" name="search" id="search" placeholder="Pesquisar pela data" value="{{ request.GET.search }}" >
+        <button class="btn btn-light" type="submit" id="btn-search">
+          <i class="fas fa-search"></i>
+        </button>
+      </form>
+    </div>
     <table class="table table-light table-striped">
         <thead>
             <tr>
@@ -25,7 +32,7 @@
               <td> {{ venda.data }} </td>
               <td> {{ venda.valor_total }} </td>  
               <td>
-                <a class="btn btn-outline-light" href="{% url 'detail_venda' venda.id %}">Ver Detalhes</a>
+                <a class="btn btn-outline-dark" href="{% url 'detail_venda' venda.id %}">Ver Detalhes</a>
               </td>
             </tr>
             {% endfor %}
@@ -34,7 +41,7 @@
     <div class="pagination">
       <span class="step-links">
         {% if vendas.has_previous %}
-          <a href="?page={{ produtos.previous_page_number }}"><i class="fas fa-arrow-left"></i></a>
+          <a href="?page={{ vendas.previous_page_number }}"><i class="fas fa-arrow-left"></i></a>
         {% endif %}
         {% if vendas.paginator.num_pages %}
           <span class="current">

@@ -83,15 +83,15 @@ def vendas(request):
     if search:
         vendas = Venda.objects.filter(produto__nome__icontains=search).order_by('-data')
     
-    else:
-
-        paginator = Paginator(vendas, 5)
-
-        page = request.GET.get('page')
-
-        vendas = paginator.get_page(page)
-
     faturamento_total = sum(venda.valor_total() for venda in vendas)
+
+
+    paginator = Paginator(vendas, 5)
+
+    page = request.GET.get('page')
+
+    vendas = paginator.get_page(page)
+
 
     context = {
         'vendas': vendas,
