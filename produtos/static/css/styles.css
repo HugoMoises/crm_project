@@ -75,6 +75,10 @@ td a {
   text-decoration: none;
   color: black;
 }
+.link-btn {
+  text-decoration: none;
+  color: white;
+}
 
 .list-div{
   padding: 0;

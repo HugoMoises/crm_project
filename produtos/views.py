@@ -87,7 +87,7 @@ def vendas(request):
     search = request.GET.get('search')
 
     if search:
-        vendas = Venda.objects.filter(produto__nome__icontains=search).order_by('-data')
+        vendas = Venda.objects.filter(data__icontains=search).order_by('-data')
     
     faturamento_total = sum(venda.valor_total() for venda in vendas)
 

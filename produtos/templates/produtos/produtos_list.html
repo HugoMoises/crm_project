@@ -26,7 +26,7 @@
         <tbody>
             {% for produto in produtos %}
             <tr>
-              <td> <a href="{% url 'produto_detail' produto.id %}" id="link-item">{{produto.nome}}</a> </td>
+              <td> <a href="{% url 'produto_detail' produto.id %}">{{produto.nome}}</a> </td>
               <td> {{produto.preco}} </td>
               <td>
                 <a href="{% url 'produto_update' produto.id%}"><i class="fas fa-edit"></i></a>
