@@ -71,6 +71,10 @@
   color: #13c43f;
 }
 
+td a {
+  text-decoration: none;
+  color: black;
+}
 
 .list-div{
   padding: 0;
@@ -93,11 +97,7 @@
     margin-left: 5px;
     margin-right: 5px;
 }
-/* Lista de Produtos */
-td a {
-  text-decoration: none;
-  color: white;
-}
+
 
 /* Search */
 
