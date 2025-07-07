@@ -62,6 +62,12 @@ def produto_delete(request, id):
     produto.delete()
     return redirect('produto_list')
     
+def produto_detail(request, id):
+    produto = get_object_or_404(Produto, id=id)
+    context ={
+        'produto': produto,
+    }
+    return render(request, 'produtos/produto_detail.html', context)
 
 #Estoque
 def estoque(request):

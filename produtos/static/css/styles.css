@@ -14,7 +14,11 @@
     margin-left: 5px;
     margin-right: 5px;
 }
-
+/* Lista de Produtos */
+td a {
+  text-decoration: none;
+  color: white;
+}
 
 /* Search */
 

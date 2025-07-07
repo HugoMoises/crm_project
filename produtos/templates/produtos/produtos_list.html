@@ -14,19 +14,15 @@
         <thead>
             <tr>
               <th scope="col">Nome</th>
-              <th scope="col">Descrição</th>
               <th scope="col">Preço</th>
-              <th scope="col">Estoque</th>
               <th scope="col">Ações</th>
             </tr>
         </thead>
         <tbody>
             {% for produto in produtos %}
             <tr>
-              <td> {{ produto.nome }} </td>
-              <td> {{ produto.descricao }} </td>
+              <td> <a href="{% url 'produto_detail' produto.id %}" id="link-item">{{produto.nome}}</a> </td>
               <td> {{produto.preco}} </td>
-              <td> {{ produto.estoque }} </td>
               <td>
                 <a class="btn btn-warning btn-sm" href="{% url 'produto_update' produto.id%}"><i class="fa-solid fa-pen-to-square"></i></a>
                 <a href="{% url 'produto_delete' produto.id %}"><i class="fa-solid fa-trash"></i></a>
