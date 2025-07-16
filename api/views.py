@@ -36,7 +36,7 @@ class VendaViewSet(mixins.ListModelMixin, mixins.CreateModelMixin, mixins.Retrie
     serializer_class = VendaSerializer
 
     @action(detail=True, methods=['get'])
-    def itens(self, request, ph=None):
+    def itens(self, request, pk=None):
         venda = self.get_object()   
         itens = venda.itens.all()
         serializer = ItemVendaSerializer(itens, many=True)
