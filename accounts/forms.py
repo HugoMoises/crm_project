@@ -21,6 +21,5 @@ class CustomUserCreationForm(UserCreationForm):
         super().__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
             field.widget.attrs['class'] = 'form-control'
-            # Remove os help_text dos campos password1 e password2
             if field_name in ['password1', 'password2']:
                 field.help_text = ''

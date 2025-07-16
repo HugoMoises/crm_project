@@ -38,8 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'produtos',
-    'crispy_forms',
     'accounts',
+    'rest_framework',
+    'api',
 ]
 
 MIDDLEWARE = [
