@@ -9,13 +9,24 @@ class ProdutoSerializer(serializers.ModelSerializer):
 class ItemVendaSerializer(serializers.ModelSerializer):
     class Meta:
         model = ItemVenda
-        fields = '__all__'
+        fields = [
+            'id',
+            'venda',
+            'produto',
+            'quantidade',
+            'preco_unitario',
+        ]
 
 class VendaSerializer(serializers.ModelSerializer):
-    itens = ItemVendaSerializer(many=True, read_only=True)
+    itens = serializers.HyperlinkedRelatedField(many=True, read_only=True, view_name='itemvenda-detail')
     class Meta:
         model = Venda
-        fields = '__all__'
+        fields = [
+            'id',
+            'data',
+            'valor_total',
+            'itens',
+        ]
 
     def create(self, validated_data):
         itens_data = validated_data.pop('itens')

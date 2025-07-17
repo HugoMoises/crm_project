@@ -1,10 +1,11 @@
 from django.urls import path    
-from .views import ProdutosAPIView, ProdutoAPIView, VendasAPIView, VendaAPIView, ProdutoViewSet, VendaViewSet
+from .views import ProdutosAPIView, ProdutoAPIView, VendasAPIView, VendaAPIView, ProdutoViewSet, VendaViewSet, ItemVendaViewSet
 
 from rest_framework.routers import SimpleRouter
 router = SimpleRouter()
 router.register('produtos', ProdutoViewSet)
 router.register('vendas', VendaViewSet)
+router.register('itens-venda', ItemVendaViewSet)
 
 urlpatterns = [
     path('produtos/', ProdutosAPIView.as_view(), name='produtos-list-create'),

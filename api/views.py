@@ -30,6 +30,9 @@ class ProdutoViewSet(viewsets.ModelViewSet):
     queryset = Produto.objects.all()
     serializer_class = ProdutoSerializer
 
+class ItemVendaViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = ItemVenda.objects.all()
+    serializer_class = ItemVendaSerializer
 
 class VendaViewSet(mixins.ListModelMixin, mixins.CreateModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     queryset = Venda.objects.all()
